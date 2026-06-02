@@ -5,19 +5,21 @@ class Solution(object):
         :type target: int
         :rtype: List[List[int]]
         """
-        def backtrack(idx,target,sum,arr,ans):
-            if idx>=len(candidates) or sum>target:
-                return
+        def backtrack(i,candidates,target,sum,ans,arr):
             if sum==target:
                 ans.append(arr[:])
-                return 
-            sum+=candidates[idx]
-            arr.append(candidates[idx])
-            backtrack(idx,target,sum,arr,ans)
+                return
+            if i>=len(candidates) or sum>target:
+                return
+            sum+=candidates[i]
+            arr.append(candidates[i])
+            backtrack(i,candidates,target,sum,ans,arr)
+            sum-=candidates[i]
             arr.pop()
-            sum-=candidates[idx]
-            backtrack(idx+1,target,sum,arr,ans)
+            backtrack(i+1,candidates,target,sum,ans,arr)
         ans=[]
-        backtrack(0,target,0,[],ans)
+        backtrack(0,candidates,target,0,ans,[])
         return ans
+
+
         
