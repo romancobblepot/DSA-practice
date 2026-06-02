@@ -6,23 +6,21 @@ class Solution(object):
         :rtype: List[List[int]]
         """
         candidates.sort()
-        def backtrack(idx,sum,target,arr,ans):            
-            if sum>target:
-                return
+        def backtrack(idx,candidates,target,sum,arr,ans):
             if sum==target:
                 ans.append(arr[:])
                 return 
+            if sum>target:
+                return
             for i in range(idx,len(candidates)):
-                if candidates[i]==candidates[i-1] and i>idx:
-                    continue
-                if candidates[i]>target-sum:
-                    continue
-                sum+=candidates[i]
-                arr.append(candidates[i])
-                backtrack(i+1,sum,target,arr,ans)
-                arr.pop()
-                sum-=candidates[i]
+                    if i>idx and candidates[i]==candidates[i-1]:
+                        continue
+                    sum+=candidates[i]
+                    arr.append(candidates[i])
+                    backtrack(i+1,candidates,target,sum,arr,ans)
+                    sum-=candidates[i]
+                    arr.pop()
         ans=[]
-        backtrack(0,0,target,[],ans)
+        arr=[]
+        backtrack(0,candidates,target,0,arr,ans)
         return ans
-        
