@@ -5,17 +5,20 @@ class Solution(object):
         :rtype: List[str]
         """
         open_count=1
+        string="("
         closed_count=0
-        def backtrack(ans,count,arr,open_count,closed_count):
-            if count<=0 and open_count==closed_count:
-                arr.append(ans)
+        def backtrack(open_count,closed_count,n,ans,string):
+            if n==0 and open_count==closed_count:
+                ans.append(string)
+                return 
+            if closed_count>open_count or n<0:
                 return
-            if open_count<n:
-                backtrack(ans+'(',count-1,arr,open_count+1,closed_count)
-            if open_count>closed_count:
-                backtrack(ans+')',count-1,arr,open_count,closed_count+1)
-            return arr
-        arr=[]
-        return backtrack('(',2*n-1,arr,open_count,closed_count)
+            backtrack(open_count+1,closed_count,n-1,ans,string+'(')
+            if closed_count<open_count:
+                backtrack(open_count,closed_count+1,n-1,ans,string+')')
+        ans=[]
+        backtrack(open_count,closed_count,(2*n)-1,ans,string)
+        return ans
+
 
         
