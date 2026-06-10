@@ -5,21 +5,22 @@ class Solution(object):
         :type target: int
         :rtype: int
         """
-        def backtrack(idx,nums,sum,target,memo):
-            if idx==len(nums) and sum==target:
-                return 1
-            elif idx==len(nums):
-                return 0
-            if (idx,sum) in memo:
-                return memo[(idx,sum)]
-            left=backtrack(idx+1,nums,sum+nums[idx],target,memo)
-            right=backtrack(idx+1,nums,sum-nums[idx],target,memo)
-            memo[(idx,sum)]=left+right
-            return memo[(idx,sum)]
-        memo={}
-        if abs(target)>sum(nums):
+        max_sum=sum(nums)
+        min_sum=-sum(nums)
+        if abs(target)>max_sum:
             return 0
-        res=backtrack(0,nums,0,target,memo)
-        return res
+        offset=max_sum
+        prev=[0]*(max_sum-min_sum+1)
+        prev[offset]=1
+        for i in range(len(nums)):
+            curr=[0]*(max_sum-min_sum+1)
+            for sum_ in range(max_sum-min_sum+1):
+                actual_sum=sum_-offset
+                new_sum=actual_sum+offset
+                if new_sum+nums[i]<max_sum-min_sum+1:
+                    curr[new_sum+nums[i]]+=prev[sum_]
+                curr[new_sum-nums[i]]+=prev[sum_]
+            prev=curr
+        return prev[offset+target]
 
         
