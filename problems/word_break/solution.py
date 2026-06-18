@@ -5,24 +5,16 @@ class Solution(object):
         :type wordDict: List[str]
         :rtype: bool
         """
-        def backtrack(idx,s,wordDict,memo):
-            if idx==len(s):
-                return True
-            for i in range(idx,len(s)):
-                if idx not in memo:
-                    s2=s[idx:i+1]
-                    if s2 in wordDict:
-                        l=backtrack(i+1,s,wordDict,memo)
-                        if l:
-                            memo[idx]=True
-                            return True
-                else:
-                    return memo[idx]
-            if idx not in memo:
-                memo[idx]=False
-            return False
-        memo={}
-        wordSet=set(wordDict)
-        return backtrack(0,s,wordSet,memo)
-                
-        
+        n=len(s)
+        m=len(wordDict)
+        dp=[False for _ in range(n+1)]
+        dp[0]=True
+        for i in range(n):
+            for word in wordDict:
+                start=i+1-len(word)
+                if start>=0 and s[start:i+1] in wordDict and dp[start]:
+                    dp[i+1]|=dp[start]
+        return dp[n]
+
+
+
