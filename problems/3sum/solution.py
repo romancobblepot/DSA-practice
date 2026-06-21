@@ -1,30 +1,30 @@
 class Solution(object):
     def twoSum(self,nums,start,target):
-        mpp={}
+        mapp=defaultdict(int)
         ans=[]
-        for i in range(start+1,len(nums)):
-            current=nums[i]
-            if target-current in mpp:
-                ans.append([mpp[target-current],i])
-            mpp[current]=i
+        for i in range(start,len(nums)):
+            if target-nums[i] in mapp:
+                ans.append([nums[i],target-nums[i]])
+            mapp[nums[i]]+=1
         return ans
     def threeSum(self, nums):
         """
         :type nums: List[int]
         :rtype: List[List[int]]
         """
-        ans=[]
-        nums.sort()
-        target=0
-        for i in range(len(nums)):
-            current=nums[i]
-            needed=self.twoSum(nums,i,target-current)
-            if len(needed)!=0:
-                for num in needed:
-                    j=num[0]
-                    k=num[1]
-                    if [nums[i],nums[j],nums[k]] not in ans:
-                        ans.append([nums[i],nums[j],nums[k]])
-        return ans
+        ans=set()
+        n=len(nums)
+        for i in range(n):
+            target=-nums[i]
+            two_sum=self.twoSum(nums,i+1,target)
+            for u,v in two_sum:
+                triple=tuple(sorted((nums[i],u,v)))
+                ans.add(triple)
+        output=list(list(i) for i in ans)
+        return output
+
+
+
+
 
         
