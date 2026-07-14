@@ -7,26 +7,20 @@ class Solution(object):
         """
         if numRows==1:
             return s
-        arr=[['#']*len(s) for _ in range(numRows)]
+        arr=[[] for _ in range(numRows)]
         i=0
-        j=0
-        goingDown=True
+        d=1
         for idx in range(len(s)):
-            arr[i][j]=s[idx]
+            arr[i].append(s[idx])
             if i == numRows - 1:
-                goingDown = False
+                d=-1
             elif i == 0:
-                goingDown = True
-            if goingDown:
-                i+=1
-            else:
-                i-=1
-                j+=1
+                d=1
+            i+=d
         ans=""
         for i in range(len(arr)):
-            for j in range(len(arr[0])):
-                if arr[i][j]!="#":
-                    ans+=arr[i][j]
+            for j in range(len(arr[i])):
+                ans+=arr[i][j]
         return ans
 
 
